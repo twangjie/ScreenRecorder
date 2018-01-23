@@ -28,7 +28,7 @@ int FFmpegEncoder::init()
 	avformat_network_init();
 	avdevice_register_all();
 
-	av_log_set_level(AV_LOG_TRACE);
+	av_log_set_level(AV_LOG_WARNING);
 	av_log_set_callback(my_logoutput);
 
 	return 0;
@@ -142,7 +142,7 @@ void FFmpegEncoder::encode(AVFrame* pYUVFrame)
 		pCodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
 		pCodecCtx->width = pYUVFrame->width;
 		pCodecCtx->height = pYUVFrame->height;
-		pCodecCtx->bit_rate = 400000;
+		pCodecCtx->bit_rate = 4000000;
 		pCodecCtx->gop_size = frameRate * 2;
 
 		pCodecCtx->time_base.num = 1;
@@ -204,16 +204,18 @@ void FFmpegEncoder::encode(AVFrame* pYUVFrame)
 		y_size = pCodecCtx->width * pCodecCtx->height;
 	}
 
-	//PTS
+	pkgCount++;
+
+	////PTS
 	if(video_st->time_base.num == 0)
 	{
-		pYUVFrame->pts = i;
+		pYUVFrame->pts = 1;
 	}
 	else
 	{
-		pYUVFrame->pts = i * (video_st->time_base.den) / ((video_st->time_base.num) * frameRate);
+		pYUVFrame->pts = pkgCount * (video_st->time_base.den) / ((video_st->time_base.num) * frameRate);
 	}
-	
+		
 	int got_picture = 0;
 	//Encode
 	int ret = avcodec_encode_video2(pCodecCtx, &pkt, pYUVFrame, &got_picture);
@@ -225,7 +227,9 @@ void FFmpegEncoder::encode(AVFrame* pYUVFrame)
 	if (got_picture == 1)
 	{
 		printf("Succeed to encode frame: %5d\tsize:%5d\n", framecnt, pkt.size);
+		
 		framecnt++;
+
 		pkt.stream_index = video_st->index;
 		ret = av_write_frame(pFormatCtx, &pkt);
 		av_free_packet(&pkt);

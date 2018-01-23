@@ -42,7 +42,7 @@ private:
 
 	int frameRate = 25;
 
-	int i = 0;
+	int pkgCount = 0;
 	char *outFilePath = nullptr;
 	AVFormatContext* pFormatCtx = nullptr;
 	AVOutputFormat* fmt = nullptr;

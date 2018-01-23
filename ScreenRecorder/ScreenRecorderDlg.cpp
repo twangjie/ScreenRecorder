@@ -129,7 +129,7 @@ BOOL CScreenRecorderDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -207,7 +207,7 @@ LRESULT CALLBACK KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
 	{
 		if (keyInfo->vkCode == VK_F2)
 		{
-			if(startCapture)
+			if (startCapture)
 			{
 				startCapture = false;
 			}
@@ -243,32 +243,32 @@ LRESULT CALLBACK MouseHookProc(int nCode, WPARAM wParam, LPARAM lParam) {
 void CScreenRecorderDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
 
-	
-//	printLog("GetCursorPos -> (%ld, %ld)\n", point.x, point.y);
-//
-//#if 0
-//	//获取桌面句柄
-//	HWND desktopHwnd = ::GetDesktopWindow();
-//
-//	ret = EnumChildWindows(desktopHwnd, EnumChildProcess, (LPARAM)&point);
-//#else
-//	CRect rtSelect;
-//	//rtSelect = CSCWinSpy<CSCWinFilter>::GetInstance()->GetWinRectByPoint(point, TRUE);
-//
-//	CString title;
-//	HWND hTargetWnd;
-//	BOOL ret = CSCWinSpy<CSCWinFilter>::GetInstance()->GetWindowByPoint(point, rtSelect, title, hTargetWnd);
-//
-//	if (ret)
-//	{
-//		printLog("CSCWinSpy -> (%ld, %ld, %s)\n", rtSelect.left, rtSelect.top, title);
-//
-//		CStatic  *pStatic = (CStatic*)GetDlgItem(IDC_STATIC_SELECTED_WND);
-//		pStatic->SetWindowText(title);
-//	}
-//
-//#endif
-	
+
+	//	printLog("GetCursorPos -> (%ld, %ld)\n", point.x, point.y);
+	//
+	//#if 0
+	//	//获取桌面句柄
+	//	HWND desktopHwnd = ::GetDesktopWindow();
+	//
+	//	ret = EnumChildWindows(desktopHwnd, EnumChildProcess, (LPARAM)&point);
+	//#else
+	//	CRect rtSelect;
+	//	//rtSelect = CSCWinSpy<CSCWinFilter>::GetInstance()->GetWinRectByPoint(point, TRUE);
+	//
+	//	CString title;
+	//	HWND hTargetWnd;
+	//	BOOL ret = CSCWinSpy<CSCWinFilter>::GetInstance()->GetWindowByPoint(point, rtSelect, title, hTargetWnd);
+	//
+	//	if (ret)
+	//	{
+	//		printLog("CSCWinSpy -> (%ld, %ld, %s)\n", rtSelect.left, rtSelect.top, title);
+	//
+	//		CStatic  *pStatic = (CStatic*)GetDlgItem(IDC_STATIC_SELECTED_WND);
+	//		pStatic->SetWindowText(title);
+	//	}
+	//
+	//#endif
+
 
 	CDialog::OnMouseMove(nFlags, point);
 }
@@ -460,7 +460,7 @@ void CScreenRecorderDlg::OnBnClickedButton2()
 {
 	startCapture = !startCapture;
 
-	if(pThread)
+	if (pThread)
 	{
 		pThread->join();
 		delete pThread;
@@ -487,10 +487,10 @@ void CScreenRecorderDlg::OnBnClickedButton2()
 			if (!ret) {
 				printLog("GetCursorPos -> fail(%ld)\n", GetLastError());
 			}
-			else 
+			else
 			{
 
-				if(lastPoint.x + lastPoint.y == point.x + point.y)
+				if (lastPoint.x + lastPoint.y == point.x + point.y)
 				{
 					Sleep(500);
 					continue;
@@ -512,13 +512,13 @@ void CScreenRecorderDlg::OnBnClickedButton2()
 				HWND hTargetWnd;
 				BOOL ret = CSCWinSpy<CSCWinFilter>::GetInstance()->GetWindowByPoint(point, rtSelect, title, hTargetWnd);
 
-				if(ret && hTargetWnd != hLastTargetWnd)
+				if (ret && hTargetWnd != hLastTargetWnd)
 				{
 
 					DWORD processId = 0;
 					::GetWindowThreadProcessId(hTargetWnd, &processId);
 
-					if(lastProcessId == processId)
+					if (lastProcessId == processId)
 					{
 						continue;
 					}
@@ -536,7 +536,7 @@ void CScreenRecorderDlg::OnBnClickedButton2()
 					int level = 1;
 					do
 					{
-						if(parent != NULL)
+						if (parent != NULL)
 						{
 							::GetWindowText(parent, buffer, 4096);
 							::GetWindowRect(parent, &rc);
@@ -547,10 +547,10 @@ void CScreenRecorderDlg::OnBnClickedButton2()
 							level++;
 							baseWnd = parent;
 						}
-						
+
 					} while ((parent = ::GetRealParent(baseWnd)) != NULL);
 
-					if(level == 1)
+					if (level == 1)
 					{
 						::GetWindowRect(baseWnd, &rc);
 						::GetWindowText(baseWnd, buffer, 4096);
@@ -569,7 +569,7 @@ void CScreenRecorderDlg::OnBnClickedButton2()
 
 			Sleep(500);
 		}
-	
+
 		printLog("Capture Finished\n");
 
 		UnhookWindowsHookEx(KeyboardHook);
@@ -585,7 +585,7 @@ void CScreenRecorderDlg::OnBnClickedButton3()
 	{
 		CSCWinSpy<CSCWinFilter>::GetInstance()->HighlightFoundWindow(currentBaseWnd);
 	});
-	
+
 }
 
 
@@ -604,15 +604,15 @@ void CScreenRecorderDlg::OnBnClickedButton5()
 
 	boost::thread th([pStatic, this]()
 	{
-		while(!startCapture)
+		while (!startCapture)
 		{
 			RECT lastRc = {};
-			if(currentBaseWnd)
+			if (currentBaseWnd)
 			{
 				RECT rc = {};
 				::GetWindowRect(currentBaseWnd, &rc);
 
-				if(lastRc.left != rc.left || lastRc.right != rc.right
+				if (lastRc.left != rc.left || lastRc.right != rc.right
 					|| lastRc.top != rc.top || lastRc.bottom != rc.bottom)
 				{
 					char buffer[4096];
@@ -623,7 +623,7 @@ void CScreenRecorderDlg::OnBnClickedButton5()
 					pStatic->SetWindowText(title);
 
 					lastRc = rc;
-				}				
+				}
 			}
 
 			Sleep(40);
@@ -830,7 +830,7 @@ void CScreenRecorderDlg::OnBnClickedButton6()
 
 void CScreenRecorderDlg::OnBnClickedButton7()
 {
-	if(recording)
+	if (recording)
 	{
 		recording = false;
 	}
@@ -859,11 +859,11 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 			sprintf(offset_x, "%d", rc.left);
 			sprintf(offset_y, "%d", rc.top);
 			sprintf(video_size, "%dx%d", width, height);
-			sprintf(frameRate, "%d", 5);
+			sprintf(frameRate, "%d", 30);
 
 			FFmpegEncoder *pEncoder = new FFmpegEncoder;
 			pEncoder->init();
-			pEncoder->start("outpu.h264", boost::lexical_cast<int>(frameRate));
+			pEncoder->start("output.mpg", boost::lexical_cast<int>(frameRate));
 
 			AVFormatContext	*pFormatCtx;
 			int				i, videoindex;
@@ -874,15 +874,20 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 
 			//Use gdigrab
 			AVDictionary* options = NULL;
+
 			//Set some options
 			//grabbing frame rate
 			av_dict_set(&options, "framerate", frameRate, 0);
-			//The distance from the left edge of the screen or desktop
-			av_dict_set(&options, "offset_x", offset_x, 0);
-			//The distance from the top edge of the screen or desktop
-			av_dict_set(&options, "offset_y", offset_y, 0);
-			//Video frame size. The default is to capture the full screen
-			av_dict_set(&options, "video_size", video_size, 0);
+
+			if (currentBaseWnd)
+			{
+				//The distance from the left edge of the screen or desktop
+				av_dict_set(&options, "offset_x", offset_x, 0);
+				//The distance from the top edge of the screen or desktop
+				av_dict_set(&options, "offset_y", offset_y, 0);
+				//Video frame size. The default is to capture the full screen
+				av_dict_set(&options, "video_size", video_size, 0);
+			}
 
 			AVInputFormat *ifmt = av_find_input_format("gdigrab");
 			if (avformat_open_input(&pFormatCtx, "desktop", ifmt, &options) != 0) {
@@ -926,9 +931,8 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 				return;
 			}
 
-			AVFrame	*pFrame, *pFrameYUV;
-			pFrame = av_frame_alloc();
-			pFrameYUV = av_frame_alloc();
+			AVFrame	*pFrame = av_frame_alloc();
+			AVFrame	*pFrameYUV = av_frame_alloc();
 
 			unsigned char *out_buffer = (unsigned char *)av_malloc(avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
 			avpicture_fill((AVPicture *)pFrameYUV, out_buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
@@ -936,8 +940,8 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 			int ret, got_picture;
 			AVPacket *packet = (AVPacket *)av_malloc(sizeof(AVPacket));
 
-			struct SwsContext *img_convert_ctx = 
-				sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, 
+			struct SwsContext *img_convert_ctx =
+				sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height,
 					AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
 
 			FILE *fp_yuv = NULL;
@@ -957,8 +961,15 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 
 							sws_scale(img_convert_ctx, (const unsigned char* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
 
-							pFrameYUV->height = pCodecCtx->height;
-							pFrameYUV->width = pCodecCtx->width;
+							pFrameYUV->height = pFrame->height;
+							pFrameYUV->width = pFrame->width;
+							pFrameYUV->format = AV_PIX_FMT_YUV420P;
+							/*pFrameYUV->key_frame = pFrame->key_frame;*/
+
+							av_frame_copy(pFrameYUV, pFrame);
+							av_frame_copy_props(pFrameYUV, pFrame);
+
+							pFrameYUV->pts = pFrame->pkt_pts;
 
 							pEncoder->encode(pFrameYUV);
 
@@ -989,10 +1000,11 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 			av_frame_free(&pFrameYUV);
 			avformat_free_context(pFormatCtx);
 
-			if(fp_yuv)
+			if (fp_yuv)
 			{
 				fclose(fp_yuv);
-			}			
+			}
 		});
 	}
 }
+
