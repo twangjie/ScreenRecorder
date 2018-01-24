@@ -44,6 +44,11 @@ int FFmpegEncoder::start(char* outFilePath, int frameRate)
 	//Guess Format
 	fmt = av_guess_format(NULL, outFilePath, NULL);
 	pFormatCtx->oformat = fmt;
+	if(((std::string)outFilePath).find(".mpg") != -1)
+	{
+		pFormatCtx->oformat->video_codec = AV_CODEC_ID_MPEG2VIDEO;
+		pFormatCtx->oformat->audio_codec = AV_CODEC_ID_MP3;
+	}
 
 	//Method 2.
 	//avformat_alloc_output_context2(&pFormatCtx, NULL, NULL, out_file);

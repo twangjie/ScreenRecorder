@@ -4,3 +4,5 @@
 /ScreenRecorder/*.user
 /ScreenRecorder/Release
 /ScreenRecorder/*.aps
+/HttpStreamer/Release
+/HttpStreamer/*.user

@@ -863,7 +863,7 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 
 			FFmpegEncoder *pEncoder = new FFmpegEncoder;
 			pEncoder->init();
-			pEncoder->start("output.mpg", boost::lexical_cast<int>(frameRate));
+			pEncoder->start("output.h264", boost::lexical_cast<int>(frameRate));
 
 			AVFormatContext	*pFormatCtx;
 			int				i, videoindex;
@@ -877,7 +877,7 @@ void CScreenRecorderDlg::OnBnClickedButton7()
 
 			//Set some options
 			//grabbing frame rate
-			av_dict_set(&options, "framerate", frameRate, 0);
+			//av_dict_set(&options, "framerate", frameRate, 0);
 
 			if (currentBaseWnd)
 			{
